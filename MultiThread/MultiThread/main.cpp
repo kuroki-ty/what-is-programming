@@ -2,6 +2,7 @@
 #include <vector>
 #include <numeric>
 #include <pthread.h>
+#include <semaphore.h>
 
 #include <unistd.h>
 
@@ -9,7 +10,6 @@ namespace {
     const uint32_t N = 256;    // リングバッファ限界値
 }  // namespace
 
-pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;
 
 template <typename T>
 class MultiThreadQueue
@@ -17,39 +17,41 @@ class MultiThreadQueue
 public:
     void enqueue(const T &data)
     {
-#ifdef _LOCK
-        pthread_mutex_lock(&m);
-#endif
+        sem_post(_sem);    // セマフォ加算
+        sem_wait(_sem);    // セマフォが0より大きくなるまでブロック
+
         int next = (_tail + 1) % N;
         if (next != _head) {    // リングバッファがいっぱいではない
             _data[_tail] = data;
             _tail = next;
         }
-#ifdef _LOCK
-        pthread_mutex_unlock(&m);
-#endif
+
+        sem_post(_sem);    // セマフォ加算
     }
 
     T dequeue()
     {
-#ifdef _LOCK
-        pthread_mutex_lock(&m);
-#endif
+        sem_wait(_sem);    // セマフォが0より大きくなるまでブロック
+
         T ret = T();
         if (_head != _tail) {    // リングバッファが空ではない
             ret = _data[_head];
             _head = (_head + 1) % N;
         }
-#ifdef _LOCK
-        pthread_mutex_unlock(&m);
-#endif
+
+        sem_post(_sem);    // セマフォ加算
+
         return ret;
     }
+
+    void   setSem(sem_t* sem){ _sem = sem; }
+    sem_t* getSem() const { return _sem; }
 
 private:
     T _data[N];       // バッファ
     int _head = 0;    // 読み出しポインタ
     int _tail = 0;    // 書き出しポインタ
+    sem_t* _sem;      // セマフォ
 };
 
 struct WorkData
@@ -71,7 +73,8 @@ void* worker(void *)
 
         if (data.message == WorkData::MESSAGE_TERMINATE) {
             /* スレッドを終了する */
-            pthread_exit(NULL);
+            sem_destroy(queue.getSem());          // セマフォを解放
+            pthread_exit(NULL);                   // スレッドを終了
             break;
         }
 
@@ -87,9 +90,16 @@ void* worker(void *)
 
 int main()
 {
+    /* セマフォの初期化 */
+    sem_t* sem = (sem_t*)malloc(sizeof(sem_t) * 10);
+    queue.setSem(sem);
+    int ret = sem_init(queue.getSem(), 0, 0);
+
     /* スレッドを起動する */
     pthread_t th1;
     pthread_create(&th1, NULL, worker, NULL);
+
+    sleep(1);
 
     WorkData work1 = { WorkData::MESSAGE_CALCSUM, { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 } };        // 55
     queue.enqueue(work1);
@@ -104,6 +114,8 @@ int main()
 
     /* スレッドの終了を待つ */
     pthread_join(th1, NULL);
+
+    free(queue.getSem());
 
     return 0;
 }
