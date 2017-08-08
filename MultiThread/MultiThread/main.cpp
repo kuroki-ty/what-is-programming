@@ -5,11 +5,12 @@
 #include <semaphore.h>
 
 #include <unistd.h>
+#include <errno.h>
 
 namespace {
+    const char* SEM_NAME = "/semaphore";
     const uint32_t N = 256;    // リングバッファ限界値
 }  // namespace
-
 
 template <typename T>
 class MultiThreadQueue
@@ -18,7 +19,9 @@ public:
     void enqueue(const T &data)
     {
         sem_post(_sem);    // セマフォ加算
+        perror("sem_post error  ");
         sem_wait(_sem);    // セマフォが0より大きくなるまでブロック
+        perror("sem_wait error  ");
 
         int next = (_tail + 1) % N;
         if (next != _head) {    // リングバッファがいっぱいではない
@@ -73,7 +76,9 @@ void* worker(void *)
 
         if (data.message == WorkData::MESSAGE_TERMINATE) {
             /* スレッドを終了する */
-            sem_destroy(queue.getSem());          // セマフォを解放
+            sem_close(queue.getSem());
+            perror("sem_close error  ");
+            sem_unlink(SEM_NAME);                 // セマフォを解放
             pthread_exit(NULL);                   // スレッドを終了
             break;
         }
@@ -91,15 +96,13 @@ void* worker(void *)
 int main()
 {
     /* セマフォの初期化 */
-    sem_t* sem = (sem_t*)malloc(sizeof(sem_t) * 10);
+    sem_t* sem = sem_open(SEM_NAME, O_CREAT | O_EXCL, 0x777, 0);
     queue.setSem(sem);
-    int ret = sem_init(queue.getSem(), 0, 0);
+    perror("sem_open error  ");
 
     /* スレッドを起動する */
     pthread_t th1;
     pthread_create(&th1, NULL, worker, NULL);
-
-    sleep(1);
 
     WorkData work1 = { WorkData::MESSAGE_CALCSUM, { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 } };        // 55
     queue.enqueue(work1);
@@ -114,8 +117,6 @@ int main()
 
     /* スレッドの終了を待つ */
     pthread_join(th1, NULL);
-
-    free(queue.getSem());
 
     return 0;
 }
