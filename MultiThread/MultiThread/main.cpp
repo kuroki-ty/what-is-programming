@@ -4,11 +4,9 @@
 #include <pthread.h>
 #include <semaphore.h>
 
-#include <unistd.h>
 #include <errno.h>
 
 namespace {
-    const char* SEM_NAME = "/semaphore";
     const uint32_t N = 256;    // リングバッファ限界値
 }  // namespace
 
@@ -18,23 +16,20 @@ class MultiThreadQueue
 public:
     void enqueue(const T &data)
     {
-        sem_post(_sem);    // セマフォ加算
-        perror("sem_post error  ");
-        sem_wait(_sem);    // セマフォが0より大きくなるまでブロック
-        perror("sem_wait error  ");
-
         int next = (_tail + 1) % N;
         if (next != _head) {    // リングバッファがいっぱいではない
             _data[_tail] = data;
             _tail = next;
         }
 
-        sem_post(_sem);    // セマフォ加算
+        sem_post(_sem);    // キューに入れたのでセマフォ加算
+        perror("sem_post error  ");
     }
 
     T dequeue()
     {
-        sem_wait(_sem);    // セマフォが0より大きくなるまでブロック
+        sem_wait(_sem);    // キューに積まれるまでブロック
+        perror("sem_wait error  ");
 
         T ret = T();
         if (_head != _tail) {    // リングバッファが空ではない
@@ -42,12 +37,10 @@ public:
             _head = (_head + 1) % N;
         }
 
-        sem_post(_sem);    // セマフォ加算
-
         return ret;
     }
 
-    void   setSem(sem_t* sem){ _sem = sem; }
+    void setSem(sem_t* sem){ _sem = sem; }
     sem_t* getSem() const { return _sem; }
 
 private:
@@ -76,9 +69,8 @@ void* worker(void *)
 
         if (data.message == WorkData::MESSAGE_TERMINATE) {
             /* スレッドを終了する */
-            sem_close(queue.getSem());
-            perror("sem_close error  ");
-            sem_unlink(SEM_NAME);                 // セマフォを解放
+            sem_destroy(queue.getSem());          // セマフォを解放
+            perror("sem_destroy error  ");
             pthread_exit(NULL);                   // スレッドを終了
             break;
         }
@@ -96,9 +88,10 @@ void* worker(void *)
 int main()
 {
     /* セマフォの初期化 */
-    sem_t* sem = sem_open(SEM_NAME, O_CREAT | O_EXCL, 0x777, 0);
+    sem_t* sem = (sem_t*)malloc(sizeof(sem_t) * 10);
+    sem_init(sem, 0, 0);
     queue.setSem(sem);
-    perror("sem_open error  ");
+    perror("sem_init error  ");
 
     /* スレッドを起動する */
     pthread_t th1;
@@ -117,6 +110,8 @@ int main()
 
     /* スレッドの終了を待つ */
     pthread_join(th1, NULL);
+
+    free(queue.getSem());
 
     return 0;
 }
