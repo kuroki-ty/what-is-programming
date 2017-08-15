@@ -3,6 +3,7 @@
 #include <numeric>
 #include <pthread.h>
 #include <semaphore.h>
+#include <condition_variable>
 
 #include <errno.h>
 
@@ -16,26 +17,40 @@ class MultiThreadQueue
 public:
     void enqueue(const T &data)
     {
+        std::unique_lock<std::mutex> lock(_mutex);
+
         int next = (_tail + 1) % N;
-        if (next != _head) {    // リングバッファがいっぱいではない
-            _data[_tail] = data;
-            _tail = next;
-        }
+
+        // リングバッファがいっぱいの時はブロックして待つ
+        _notFull.wait(lock, [this, next] { return next != _head; });
+
+        // キューに入れる
+        _data[_tail] = data;
+        _tail = next;
 
         sem_post(_sem);    // キューに入れたのでセマフォ加算
         perror("sem_post error  ");
+
+        _notEmpty.notify_all();   // dequeue OK
     }
 
     T dequeue()
     {
+        std::unique_lock<std::mutex> lock(_mutex);
+
         sem_wait(_sem);    // キューに積まれるまでブロック
         perror("sem_wait error  ");
 
         T ret = T();
-        if (_head != _tail) {    // リングバッファが空ではない
-            ret = _data[_head];
-            _head = (_head + 1) % N;
-        }
+
+        // リングバッファが空の時はブロックして待つ
+        _notEmpty.wait(lock, [this] { return _head != _tail; });
+
+        // キューから取り出す
+        ret = _data[_head];
+        _head = (_head + 1) % N;
+
+        _notFull.notify_all();    // enqueue OK
 
         return ret;
     }
@@ -48,6 +63,10 @@ private:
     int _head = 0;    // 読み出しポインタ
     int _tail = 0;    // 書き出しポインタ
     sem_t* _sem;      // セマフォ
+
+    std::mutex _mutex;
+    std::condition_variable _notFull;     // enqueue用状態変数
+    std::condition_variable _notEmpty;    // dequeue用状態変数
 };
 
 struct WorkData
