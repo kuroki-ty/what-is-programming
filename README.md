@@ -1,2 +1,6 @@
 # what-is-programming
 勉強用レポジトリ
+
+# ディレクトリ
+## MultiThread
+- Mutexを使ってキュー構造を実装する
