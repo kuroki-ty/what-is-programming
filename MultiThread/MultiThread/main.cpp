@@ -2,7 +2,6 @@
 #include <vector>
 #include <numeric>
 #include <pthread.h>
-#include <semaphore.h>
 #include <condition_variable>
 
 #include <errno.h>
@@ -28,18 +27,12 @@ public:
         _data[_tail] = data;
         _tail = next;
 
-        sem_post(_sem);    // キューに入れたのでセマフォ加算
-        perror("sem_post error  ");
-
         _notEmpty.notify_all();   // dequeue OK
     }
 
     T dequeue()
     {
         std::unique_lock<std::mutex> lock(_mutex);
-
-        sem_wait(_sem);    // キューに積まれるまでブロック
-        perror("sem_wait error  ");
 
         T ret = T();
 
@@ -55,14 +48,10 @@ public:
         return ret;
     }
 
-    void setSem(sem_t* sem){ _sem = sem; }
-    sem_t* getSem() const { return _sem; }
-
 private:
     T _data[N];       // バッファ
     int _head = 0;    // 読み出しポインタ
     int _tail = 0;    // 書き出しポインタ
-    sem_t* _sem;      // セマフォ
 
     std::mutex _mutex;
     std::condition_variable _notFull;     // enqueue用状態変数
@@ -88,8 +77,6 @@ void* worker(void *)
 
         if (data.message == WorkData::MESSAGE_TERMINATE) {
             /* スレッドを終了する */
-            sem_destroy(queue.getSem());          // セマフォを解放
-            perror("sem_destroy error  ");
             pthread_exit(NULL);                   // スレッドを終了
             break;
         }
@@ -106,12 +93,6 @@ void* worker(void *)
 
 int main()
 {
-    /* セマフォの初期化 */
-    sem_t* sem = (sem_t*)malloc(sizeof(sem_t) * 10);
-    sem_init(sem, 0, 0);
-    queue.setSem(sem);
-    perror("sem_init error  ");
-
     /* スレッドを起動する */
     pthread_t th1;
     pthread_create(&th1, NULL, worker, NULL);
@@ -129,8 +110,6 @@ int main()
 
     /* スレッドの終了を待つ */
     pthread_join(th1, NULL);
-
-    free(queue.getSem());
 
     return 0;
 }
