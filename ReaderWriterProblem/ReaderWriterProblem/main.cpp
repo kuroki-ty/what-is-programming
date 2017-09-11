@@ -27,6 +27,7 @@ public:
     : _readingReaders(0)
     , _writingWriters(0)
     , _waitingWriters(0)
+    , _preferReader(true)
     {
     }
 
@@ -34,8 +35,8 @@ public:
     {
         std::unique_lock<std::mutex> rlock(_mtx);
 
-        // Writerが0 かつ　待ちWriterが0 になるまで待つ
-        _not_writing.wait(rlock, [this] { return _writingWriters <= 0 && _waitingWriters <= 0; });
+        // Writerが0 かつ (読み手優先 か 待ちWriterが0) になるまで待つ
+        _not_writing.wait(rlock, [this] { return _writingWriters <= 0 && (_preferReader || _waitingWriters <= 0); });
 
         _readingReaders++;
         printf("Read open. Reader:%d\n", _readingReaders);
@@ -45,6 +46,7 @@ public:
     {
         std::lock_guard<std::mutex> rlock(_mtx);
         _readingReaders--;
+        _preferReader = false;  // 書き手を優先させる
         // 待ちスレッドに知らせる
         _not_writing.notify_all();
         printf("Read close. Reader:%d\n", _readingReaders);
@@ -69,6 +71,7 @@ public:
     {
         std::lock_guard<std::mutex> wlock(_mtx);
         _writingWriters--;
+        _preferReader = true;  // 読み手を優先させる
         // 待ちスレッドに知らせる
         _not_writing.notify_all();
         printf("Write close.\n");
@@ -78,6 +81,7 @@ private:
     int _readingReaders;
     int _writingWriters;
     int _waitingWriters;
+    bool _preferReader;
     std::mutex _mtx;
     std::condition_variable _not_writing;
 };
