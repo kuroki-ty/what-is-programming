@@ -73,7 +73,7 @@ public:
         _writingWriters--;
         _preferReader = true;  // 読み手を優先させる
         // 待ちスレッドに知らせる
-        _not_writing.notify_all();
+        _not_writing.notify_one();
         printf("Write close.\n");
     }
 
