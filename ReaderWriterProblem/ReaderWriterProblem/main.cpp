@@ -2,7 +2,7 @@
  * Reader-Writer問題をセマフォ(状態変数)を使って解決せよ
  * 以下の特徴をキープすること
  *    1. Readerは複数同時にいても問題ない
- *    2. Readerがいる場合、Writerは書けない(WriteしているときはReaderができない)
+ *    2. Readerがいる場合、Writerは書けない(WriteしているときはReadができない)
  *    3. Writerは複数同時にいてはいけない
  */
 
