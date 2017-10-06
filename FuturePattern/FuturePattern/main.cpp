@@ -3,9 +3,16 @@
 #include <numeric>
 #include <pthread.h>
 #include <condition_variable>
+#include <unistd.h>
 #include "MultiThreadQueue.h"
 
 #include <errno.h>
+
+void randomSleep()
+{
+    int time = rand() % 5;
+    sleep(time);
+}
 
 /**
  * 実際に計算してデータ(RealData)を作成するクラス
@@ -16,7 +23,8 @@ class RealData
 public:
     RealData(std::vector<int>& values)
     {
-        // Sleep入れる
+        // 計算に時間がかかる想定
+        randomSleep();
         _result = std::accumulate(values.begin(), values.end(), 0);
     }
 
