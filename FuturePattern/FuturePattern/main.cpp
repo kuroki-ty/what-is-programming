@@ -64,6 +64,8 @@ public:
     /** 結果を書き込む。待っているスレッドをすべて起こす */
     void writeResult(const RealDataPtr& realData)
     {
+        std::unique_lock<std::mutex> lock(_mtx);
+
         if (_ready) {
             return;
         }
