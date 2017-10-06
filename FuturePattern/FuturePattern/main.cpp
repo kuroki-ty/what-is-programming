@@ -23,9 +23,13 @@ class RealData
 public:
     RealData(std::vector<int>& values)
     {
+        printf("    [BEGIN] Making Real Data.\n");
+
         // 計算に時間がかかる想定
         randomSleep();
         _result = std::accumulate(values.begin(), values.end(), 0);
+
+        printf("    [END] Making Real Data. %d\n", _result);
     }
 
     int getResult() { return _result; }
@@ -132,6 +136,8 @@ public:
         // キューにデータを格納
         queue.enqueue(workData);
 
+        printf("  work data request.\n");
+
         return futureData;
     }
 };
@@ -149,13 +155,16 @@ int main()
     };
     std::vector<FutureDataPtr> futureDataList;
 
+    printf("Work data requrst start.\n");
     for (auto workData : workDataList) {
         auto data = host->request(workData);
         futureDataList.push_back(data);
     }
+    printf("Work data requrst done.\n");
 
     for (auto futureData : futureDataList) {
-        printf("%d", futureData->waitResult());
+        printf("Real Data is creating. ready: %s\n", futureData->tryResult() ? "true" : "false");
+        printf("created. data: %d\n", futureData->waitResult());
     }
 
     return 0;
