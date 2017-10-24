@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3092AB331FD506B00021FC96 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3092AB1F1FD4FD0A0021FC96 /* libz.a */; };
+		3092B0201FD523630021FC96 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3092AB1E1FD4FD0A0021FC96 /* libpng.a */; };
 		30A833E41F9F3626004B6E36 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A833E31F9F3626004B6E36 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -23,8 +25,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3092AB1E1FD4FD0A0021FC96 /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpng.a; sourceTree = "<group>"; };
+		3092AB1F1FD4FD0A0021FC96 /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libz.a; sourceTree = "<group>"; };
+		3092B0181FD50E670021FC96 /* png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = png.h; sourceTree = "<group>"; };
+		3092B0191FD50F000021FC96 /* pngconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngconf.h; sourceTree = "<group>"; };
+		3092B01A1FD50F000021FC96 /* pngpriv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngpriv.h; sourceTree = "<group>"; };
+		3092B01B1FD50F000021FC96 /* pnglibconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnglibconf.h; sourceTree = "<group>"; };
+		3092B01C1FD50F000021FC96 /* pngprefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngprefix.h; sourceTree = "<group>"; };
+		3092B01D1FD50F010021FC96 /* pngdebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngdebug.h; sourceTree = "<group>"; };
+		3092B01E1FD50F010021FC96 /* pngstruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngstruct.h; sourceTree = "<group>"; };
+		3092B01F1FD50F010021FC96 /* pnginfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnginfo.h; sourceTree = "<group>"; };
 		30A833E01F9F3626004B6E36 /* ImageProcessing */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ImageProcessing; sourceTree = BUILT_PRODUCTS_DIR; };
 		30A833E31F9F3626004B6E36 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		30A833EE1F9F416E004B6E36 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
+		30A833EF1F9F416E004B6E36 /* stb_image_write.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image_write.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,17 +46,44 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3092B0201FD523630021FC96 /* libpng.a in Frameworks */,
+				3092AB331FD506B00021FC96 /* libz.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3092AB1D1FD4FD0A0021FC96 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3092B0191FD50F000021FC96 /* pngconf.h */,
+				3092B01D1FD50F010021FC96 /* pngdebug.h */,
+				3092B01F1FD50F010021FC96 /* pnginfo.h */,
+				3092B01B1FD50F000021FC96 /* pnglibconf.h */,
+				3092B01C1FD50F000021FC96 /* pngprefix.h */,
+				3092B01A1FD50F000021FC96 /* pngpriv.h */,
+				3092B01E1FD50F010021FC96 /* pngstruct.h */,
+				3092B0181FD50E670021FC96 /* png.h */,
+				3092AB1E1FD4FD0A0021FC96 /* libpng.a */,
+				3092AB1F1FD4FD0A0021FC96 /* libz.a */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		3092AB2C1FD5012D0021FC96 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		30A833D71F9F3626004B6E36 = {
 			isa = PBXGroup;
 			children = (
 				30A833E21F9F3626004B6E36 /* ImageProcessing */,
 				30A833E11F9F3626004B6E36 /* Products */,
+				3092AB2C1FD5012D0021FC96 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,9 +98,19 @@
 		30A833E21F9F3626004B6E36 /* ImageProcessing */ = {
 			isa = PBXGroup;
 			children = (
+				3092AB1D1FD4FD0A0021FC96 /* Frameworks */,
 				30A833E31F9F3626004B6E36 /* main.cpp */,
 			);
 			path = ImageProcessing;
+			sourceTree = "<group>";
+		};
+		30E268931FC3D86B004DEB22 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				30A833EE1F9F416E004B6E36 /* stb_image.h */,
+				30A833EF1F9F416E004B6E36 /* stb_image_write.h */,
+			);
+			path = stb;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,16 +283,40 @@
 		30A833E81F9F3626004B6E36 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ImageProcessing/Frameworks",
+					"$(PROJECT_DIR)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ImageProcessing/Frameworks",
+					"$(PROJECT_DIR)",
+				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
 		30A833E91F9F3626004B6E36 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ImageProcessing/Frameworks",
+					"$(PROJECT_DIR)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ImageProcessing/Frameworks",
+					"$(PROJECT_DIR)",
+				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
