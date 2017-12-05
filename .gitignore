@@ -50,3 +50,7 @@ xcuserdata/
 *.moved-aside
 *.xccheckout
 *.xcscmblueprint
+
+## Resources
+*.png
+
