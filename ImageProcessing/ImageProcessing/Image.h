@@ -1,9 +1,6 @@
 #ifndef Image_h
 #define Image_h
 
-#define STB_IMAGE_IMPLEMENTATION
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
