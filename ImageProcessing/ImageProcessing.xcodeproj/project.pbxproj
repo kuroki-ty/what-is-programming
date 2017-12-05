@@ -39,6 +39,7 @@
 		3092B01F1FD50F010021FC96 /* pnginfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnginfo.h; sourceTree = "<group>"; };
 		3092B0211FD646EF0021FC96 /* Filter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Filter.cpp; sourceTree = "<group>"; };
 		3092B0221FD646EF0021FC96 /* Filter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Filter.h; sourceTree = "<group>"; };
+		3092B0241FD6662B0021FC96 /* 2560x1440.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2560x1440.png; sourceTree = "<group>"; };
 		30A833E01F9F3626004B6E36 /* ImageProcessing */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ImageProcessing; sourceTree = BUILT_PRODUCTS_DIR; };
 		30A833E31F9F3626004B6E36 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		30A833F01F9F448F004B6E36 /* Image.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
@@ -117,6 +118,7 @@
 		30E268931FC3D86B004DEB22 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3092B0241FD6662B0021FC96 /* 2560x1440.png */,
 				30E268941FC3D86B004DEB22 /* 1920x1080.png */,
 			);
 			path = Resources;
