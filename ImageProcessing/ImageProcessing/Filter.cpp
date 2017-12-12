@@ -1,25 +1,22 @@
 #include "Filter.h"
 
-void Filter::apply(ImagePtr image, Type filtername)
+RGBAArray Filter::apply(RGBAArray imageData, uint32_t width, uint32_t height, Type filtername)
 {
     // FilterNameごとにフィルタを適用する
     switch (filtername) {
         case Type::SMOOTHING:
-            smoothingFilter(image);
+            imageData = smoothingFilter(imageData, width, height);
             break;
 
         default:
             break;
     }
+    return imageData;
 }
 
-void Filter::smoothingFilter(ImagePtr image)
+RGBAArray Filter::smoothingFilter(RGBAArray imageData, uint32_t width, uint32_t height)
 {
-    auto width = image->getWidth();
-    auto height = image->getHeight();
-    auto imgData = image->getImageData();
-
-    auto smooth = [width, height](const std::vector<std::vector<Image::RGBA>>& data, int m, int n, Image::RGBAType type) {
+    auto smooth = [width, height](const RGBAArray& data, int m, int n, Image::RGBAType type) {
         unsigned short int sum = 0x0000;
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
@@ -28,7 +25,7 @@ void Filter::smoothingFilter(ImagePtr image)
 
                 // 端処理
                 if (a < 0 || a > height - 1) a = m;
-                if (b < 0 || b > width - 1)  b = n;
+                if (b < 0 || b > width  - 1) b = n;
 
                 switch (type) {
                     case Image::RGBAType::RED:
@@ -57,12 +54,12 @@ void Filter::smoothingFilter(ImagePtr image)
     // 平滑化
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            imgData[i][j].r = smooth(imgData, i, j, Image::RGBAType::RED);
-            imgData[i][j].g = smooth(imgData, i, j, Image::RGBAType::GREEN);
-            imgData[i][j].b = smooth(imgData, i, j, Image::RGBAType::BLUE);
-            imgData[i][j].a = smooth(imgData, i, j, Image::RGBAType::ALPHA);
+            imageData[i][j].r = smooth(imageData, i, j, Image::RGBAType::RED);
+            imageData[i][j].g = smooth(imageData, i, j, Image::RGBAType::GREEN);
+            imageData[i][j].b = smooth(imageData, i, j, Image::RGBAType::BLUE);
+            imageData[i][j].a = smooth(imageData, i, j, Image::RGBAType::ALPHA);
         }
     }
 
-    image->setImageData(imgData);
+    return imageData;
 }

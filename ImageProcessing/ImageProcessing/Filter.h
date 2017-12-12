@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include "Image.h"
+#include "Common.h"
 
 class Filter
 {
@@ -11,10 +12,10 @@ public:
         SMOOTHING,
     };
 
-    static void apply(ImagePtr image, Type filtername);
+    static RGBAArray apply(RGBAArray imageData, uint32_t width, uint32_t height, Type filtername);
 
 private:
-    static void smoothingFilter(ImagePtr image);
+    static RGBAArray smoothingFilter(RGBAArray imageData, uint32_t width, uint32_t height);
 };
 
 #endif /* Filter_h */

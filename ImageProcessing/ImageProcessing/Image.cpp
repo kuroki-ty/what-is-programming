@@ -72,9 +72,9 @@ void Image::free()
     _png = nullptr;
 }
 
-std::vector<std::vector<Image::RGBA>> Image::getImageData()
+RGBAArray Image::getImageData()
 {
-    std::vector<std::vector<Image::RGBA>> imageData;
+    RGBAArray imageData;
 
     for (int i = 0; i < _fParams.height; i++) {
         std::vector<Image::RGBA> data;
@@ -92,7 +92,27 @@ std::vector<std::vector<Image::RGBA>> Image::getImageData()
     return imageData;
 }
 
-void Image::setImageData(std::vector<std::vector<Image::RGBA>> imageData)
+RGBAArray Image::getImageData(const Common::Range width, const Common::Range height)
+{
+    RGBAArray imageData;
+
+    for (int i = height.begin; i < height.end; i++) {
+        std::vector<Image::RGBA> data;
+        for (int j = width.begin; j < width.end * 4; j += 4) {
+            Image::RGBA d;
+            d.r = _png[i][j];
+            d.g = _png[i][j + 1];
+            d.b = _png[i][j + 2];
+            d.a = _png[i][j + 3];
+            data.push_back(d);
+        }
+        imageData.push_back(data);
+    }
+
+    return imageData;
+}
+
+void Image::setImageData(RGBAArray imageData)
 {
     for (int i = 0; i < _fParams.height; i++) {
         auto itr = imageData[i].begin();

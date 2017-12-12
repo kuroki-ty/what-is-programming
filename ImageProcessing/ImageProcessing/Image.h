@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <vector>
 #include <png.h>
+#include "Common.h"
 
 class Image
 {
@@ -30,6 +31,7 @@ public:
     void free();
 
     std::vector<std::vector<RGBA>> getImageData();
+    std::vector<std::vector<RGBA>> getImageData(const Common::Range width, const Common::Range height);
     void setImageData(std::vector<std::vector<RGBA>> imageData);
     unsigned int getWidth() const { return _fParams.width; }
     unsigned int getHeight() const { return _fParams.height; }
@@ -49,5 +51,6 @@ private:
 };
 
 using ImagePtr = std::shared_ptr<Image>;
+using RGBAArray = std::vector<std::vector<Image::RGBA>>;
 
 #endif /* Image_h */
