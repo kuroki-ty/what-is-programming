@@ -50,6 +50,7 @@
 		30A833E31F9F3626004B6E36 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		30A833F01F9F448F004B6E36 /* Image.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
 		30A833F11F9F448F004B6E36 /* Image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
+		30B704851FE8D2070023F171 /* Timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
 		30E268941FC3D86B004DEB22 /* 1920x1080.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1920x1080.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,6 +120,7 @@
 				3092B0211FD646EF0021FC96 /* Filter.cpp */,
 				3092B0221FD646EF0021FC96 /* Filter.h */,
 				3016F67B1FDF869500B78F28 /* Common.h */,
+				30B704851FE8D2070023F171 /* Timer.h */,
 				3092AB1D1FD4FD0A0021FC96 /* Frameworks */,
 				30E268931FC3D86B004DEB22 /* Resources */,
 			);

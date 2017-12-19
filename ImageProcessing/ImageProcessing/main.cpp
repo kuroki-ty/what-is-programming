@@ -1,20 +1,23 @@
 #include <iostream>
 #include <vector>
-#include <chrono>
 
 #include "Image.h"
 #include "Filter.h"
 #include "MultiThreadManager.h"
 #include "Common.h"
+#include "Timer.h"
 
 int main()
 {
     // 時間計測開始
-    auto start = std::chrono::system_clock::now();
+    Timer timer;
+    timer.start();
 
     // データ読み込み
     auto image = std::make_shared<Image>("1920x1080.png");
     image->read();
+
+    timer.showProcessingTime();
 
     // Hostクラス生成
     auto host = std::make_shared<Host>();
@@ -57,10 +60,7 @@ int main()
     image->write();
 
     // 時間計測終了
-    auto end = std::chrono::system_clock::now();
-    auto dur = end - start;
-    auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
-    printf("処理時間: %lld[ms]\n", msec);
+    timer.showProcessingTime();
 
     image->free();
 
