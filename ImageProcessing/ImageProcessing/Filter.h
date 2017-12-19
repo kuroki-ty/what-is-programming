@@ -12,10 +12,10 @@ public:
         SMOOTHING,
     };
 
-    static RGBAArray apply(RGBAArray imageData, uint32_t width, uint32_t height, Type filtername);
+    static const RGBAArray& apply(RGBAArray& imageData, uint32_t width, uint32_t height, Type filtername);
 
 private:
-    static RGBAArray smoothingFilter(RGBAArray imageData, uint32_t width, uint32_t height);
+    static const RGBAArray& smoothingFilter(RGBAArray& imageData, uint32_t width, uint32_t height);
 };
 
 #endif /* Filter_h */

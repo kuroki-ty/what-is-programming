@@ -29,7 +29,7 @@ void* worker(void* p)
     return nullptr;
 }
 
-RealData::RealData(RGBAArray imageData, uint32_t width, uint32_t height, Filter::Type filtername)
+RealData::RealData(RGBAArray& imageData, uint32_t width, uint32_t height, Filter::Type filtername)
 {
     // フィルタリング
     _result = Filter::apply(imageData, width, height, filtername);

@@ -1,6 +1,6 @@
 #include "Filter.h"
 
-RGBAArray Filter::apply(RGBAArray imageData, uint32_t width, uint32_t height, Type filtername)
+const RGBAArray& Filter::apply(RGBAArray& imageData, uint32_t width, uint32_t height, Type filtername)
 {
     // FilterNameごとにフィルタを適用する
     switch (filtername) {
@@ -14,7 +14,7 @@ RGBAArray Filter::apply(RGBAArray imageData, uint32_t width, uint32_t height, Ty
     return imageData;
 }
 
-RGBAArray Filter::smoothingFilter(RGBAArray imageData, uint32_t width, uint32_t height)
+const RGBAArray& Filter::smoothingFilter(RGBAArray& imageData, uint32_t width, uint32_t height)
 {
     auto smooth = [width, height](const RGBAArray& data, int m, int n, Image::RGBAType type) {
         unsigned short int sum = 0x0000;

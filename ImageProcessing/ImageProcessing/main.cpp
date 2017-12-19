@@ -23,7 +23,7 @@ int main()
     auto host = std::make_shared<Host>();
 
     // workerスレッドに渡すworkDataを作成
-    constexpr uint32_t D_NUM = 108;
+    constexpr uint32_t D_NUM = 4;
     const uint32_t D_HEIGHT = image->getHeight() / D_NUM;
     Common::Range wRange = {0, image->getWidth()};
     Common::Range hRange = {0, D_HEIGHT};

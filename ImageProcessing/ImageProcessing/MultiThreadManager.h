@@ -17,7 +17,7 @@
 class RealData
 {
 public:
-    RealData(RGBAArray imageData, uint32_t width, uint32_t height, Filter::Type filtername);
+    RealData(RGBAArray& imageData, uint32_t width, uint32_t height, Filter::Type filtername);
 
     const RGBAArray& getResult() { return _result; }
 
