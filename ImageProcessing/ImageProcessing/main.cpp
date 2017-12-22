@@ -28,6 +28,7 @@ int main()
     Common::Range wRange = {0, image->getWidth()};
     Common::Range hRange = {0, D_HEIGHT};
     std::vector<WorkData> workDataList;
+    std::vector<Common::Range> hRangeList;
     for (int i = 0; i < D_NUM; i++) {
         workDataList.push_back({
             WorkData::MESSAGE_FILTERING,
@@ -36,7 +37,7 @@ int main()
             hRange.end - hRange.begin,
             Filter::Type::SMOOTHING
         });
-
+        hRangeList.push_back(hRange);
         hRange.begin = hRange.end;
         hRange.end   = D_HEIGHT * (i + 2);
     }
@@ -50,11 +51,14 @@ int main()
 
     // futureDataからrealDataを取得する
     RGBAArray data;
+    int n = 0;
     for (auto futureData : futureDataList) {
         auto d = futureData->waitResult();
-        data.insert(data.end(), d.begin(), d.end());
+        image->setImageData(d, hRangeList[n]);
+        n++;
     }
-    image->setImageData(data);
+
+    timer.showProcessingTime();
 
     // データ出力
     image->write();

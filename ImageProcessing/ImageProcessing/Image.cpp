@@ -38,6 +38,8 @@ void Image::read()
 
 void Image::write()
 {
+    toPngData();
+
     // フィルタをかけた後のデータを新しいファイルとして書き込み
     std::string outFileName = FILE_PATH + "out_" + _fParams.filename;
     auto fp = fopen(outFileName.c_str(), "wb");
@@ -92,13 +94,13 @@ RGBAArray Image::getImageData()
     return imageData;
 }
 
-RGBAArray Image::getImageData(const Common::Range width, const Common::Range height)
+RGBAArray Image::getImageData(const Common::Range wRange, const Common::Range hRange)
 {
     RGBAArray imageData;
 
-    for (int i = height.begin; i < height.end; i++) {
+    for (int i = hRange.begin; i < hRange.end; i++) {
         std::vector<Image::RGBA> data;
-        for (int j = width.begin; j < width.end * 4; j += 4) {
+        for (int j = wRange.begin; j < wRange.end * 4; j += 4) {
             Image::RGBA d;
             d.r = _png[i][j];
             d.g = _png[i][j + 1];
@@ -108,11 +110,37 @@ RGBAArray Image::getImageData(const Common::Range width, const Common::Range hei
         }
         imageData.push_back(data);
     }
+    _imageList[hRange.begin] = imageData;
 
     return imageData;
 }
 
-void Image::setImageData(RGBAArray imageData)
+void Image::setImageData(const RGBAArray& imageData, const Common::Range hRange)
+{
+    _imageList[hRange.begin] = imageData;
+}
+
+void Image::toPngData()
+{
+    uint32_t dHeight = static_cast<uint32_t>(_fParams.height/_imageList.size());
+    uint32_t offs = 0;
+    for (int l = 0; l < _imageList.size(); l++) {
+        auto image = _imageList[offs];
+        for (int i = 0; i < dHeight; i++) {
+            auto itr = image[i].begin();
+            for (int j = 0; j < _fParams.width * 4; j += 4) {
+                _png[i + offs][j]     = itr->r;
+                _png[i + offs][j + 1] = itr->g;
+                _png[i + offs][j + 2] = itr->b;
+                _png[i + offs][j + 3] = itr->a;
+                itr++;
+            }
+        }
+        offs += dHeight;
+    }
+}
+
+void Image::setImageData(const RGBAArray& imageData)
 {
     for (int i = 0; i < _fParams.height; i++) {
         auto itr = imageData[i].begin();
