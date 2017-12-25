@@ -21,8 +21,6 @@ void* worker(void* p)
             // データが作られたのでFutureDataに値を入れる
             futureData->writeResult(realData);
 
-            printf("スレッド終了\n");
-
             /* スレッドを終了する */
             pthread_exit(NULL);
         }

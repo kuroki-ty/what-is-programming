@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <vector>
 #include <png.h>
-#include <unordered_map>
 #include "Common.h"
 
 class Image
@@ -32,10 +31,8 @@ public:
     void free();
 
     std::vector<std::vector<RGBA>> getImageData();
-    std::vector<std::vector<RGBA>> getImageData(const Common::Range wRange, const Common::Range hRange);
-    void setImageData(const std::vector<std::vector<RGBA>>& imageData);
-    void setImageData(const std::vector<std::vector<RGBA>>& imageData, const Common::Range hRange);
-    void toPngData();
+    std::vector<std::vector<RGBA>> getImageData(const Common::Range width, const Common::Range height);
+    void setImageData(std::vector<std::vector<RGBA>> imageData);
     unsigned int getWidth() const { return _fParams.width; }
     unsigned int getHeight() const { return _fParams.height; }
 
@@ -51,8 +48,6 @@ private:
 
     FileParams _fParams;
     unsigned char** _png;
-
-    std::unordered_map<uint32_t, std::vector<std::vector<Image::RGBA>>> _imageList;
 };
 
 using ImagePtr = std::shared_ptr<Image>;
