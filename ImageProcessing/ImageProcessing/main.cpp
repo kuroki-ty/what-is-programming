@@ -31,14 +31,14 @@ int main()
     for (int i = 0; i < D_NUM; i++) {
         workDataList.push_back({
             WorkData::MESSAGE_FILTERING,
-            image->getImageData(wRange, hRange),
-            wRange.end - wRange.begin,
-            hRange.end - hRange.begin,
+            image->getPngData(),
+            wRange,
+            hRange,
             Filter::Type::SMOOTHING
         });
 
         hRange.begin = hRange.end;
-        hRange.end   = D_HEIGHT * (i + 2);
+        hRange.end   = hRange.begin + D_HEIGHT;
     }
 
     // workerスレッド起動
@@ -49,12 +49,9 @@ int main()
     }
 
     // futureDataからrealDataを取得する
-    RGBAArray data;
     for (auto futureData : futureDataList) {
-        auto d = futureData->waitResult();
-        data.insert(data.end(), d.begin(), d.end());
+        futureData->waitResult();
     }
-    image->setImageData(data);
 
     // データ出力
     image->write();

@@ -1,44 +1,46 @@
 #include "Filter.h"
+#include "Image.h"
 
-const RGBAArray& Filter::apply(RGBAArray& imageData, uint32_t width, uint32_t height, Type filtername)
+bool Filter::apply(unsigned char** pngData, Common::Range wRange, Common::Range hRange, Type filtername)
 {
+    bool ret = false;
     // FilterNameごとにフィルタを適用する
     switch (filtername) {
         case Type::SMOOTHING:
-            imageData = smoothingFilter(imageData, width, height);
+            ret = smoothingFilter(pngData, wRange, hRange);
             break;
 
         default:
             break;
     }
-    return imageData;
+    return ret;
 }
 
-const RGBAArray& Filter::smoothingFilter(RGBAArray& imageData, uint32_t width, uint32_t height)
+bool Filter::smoothingFilter(unsigned char** pngData, Common::Range wRange, Common::Range hRange)
 {
-    auto smooth = [width, height](const RGBAArray& data, int m, int n, Image::RGBAType type) {
+    auto smooth = [wRange, hRange](unsigned char** data, int m, int n, Image::RGBA type) {
         unsigned short int sum = 0x0000;
         for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
+            for (int j = -4; j <= 4; j += 4) {
                 int a = m + i;
                 int b = n + j;
 
                 // 端処理
-                if (a < 0 || a > height - 1) a = m;
-                if (b < 0 || b > width  - 1) b = n;
+                if (a < 0 || a > hRange.end - 1)     a = m;
+                if (b < 0 || b > wRange.end * 4  - 1) b = n;
 
                 switch (type) {
-                    case Image::RGBAType::RED:
-                        sum += data[a][b].r;
+                    case Image::RGBA::RED:
+                        sum += data[a][b];
                         break;
-                    case Image::RGBAType::GREEN:
-                        sum += data[a][b].g;
+                    case Image::RGBA::GREEN:
+                        sum += data[a][b + 1];
                         break;
-                    case Image::RGBAType::BLUE:
-                        sum += data[a][b].b;
+                    case Image::RGBA::BLUE:
+                        sum += data[a][b + 2];
                         break;
-                    case Image::RGBAType::ALPHA:
-                        sum += data[a][b].a;
+                    case Image::RGBA::ALPHA:
+                        sum += data[a][b + 3];
                         break;
 
                     default:
@@ -52,14 +54,14 @@ const RGBAArray& Filter::smoothingFilter(RGBAArray& imageData, uint32_t width, u
     };
 
     // 平滑化
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            imageData[i][j].r = smooth(imageData, i, j, Image::RGBAType::RED);
-            imageData[i][j].g = smooth(imageData, i, j, Image::RGBAType::GREEN);
-            imageData[i][j].b = smooth(imageData, i, j, Image::RGBAType::BLUE);
-            imageData[i][j].a = smooth(imageData, i, j, Image::RGBAType::ALPHA);
+    for (int i = hRange.begin; i < hRange.end; i++) {
+        for (int j = wRange.begin; j < wRange.end * 4; j += 4) {
+            pngData[i][j]     = smooth(pngData, i, j, Image::RGBA::RED);
+            pngData[i][j + 1] = smooth(pngData, i, j, Image::RGBA::GREEN);
+            pngData[i][j + 2] = smooth(pngData, i, j, Image::RGBA::BLUE);
+            pngData[i][j + 3] = smooth(pngData, i, j, Image::RGBA::ALPHA);
         }
     }
 
-    return imageData;
+    return true;
 }

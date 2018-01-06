@@ -17,7 +17,7 @@ void* worker(void* p)
 
         if (data.message == WorkData::MESSAGE_FILTERING) {
             FutureData* futureData = static_cast<FutureData*>(p);
-            RealDataPtr realData = std::make_shared<RealData>(data.imageData, data.width, data.height, data.filtername);
+            RealDataPtr realData = std::make_shared<RealData>(data.pngData, data.wRange, data.hRange, data.filtername);
             // データが作られたのでFutureDataに値を入れる
             futureData->writeResult(realData);
 
@@ -29,10 +29,10 @@ void* worker(void* p)
     return nullptr;
 }
 
-RealData::RealData(RGBAArray& imageData, uint32_t width, uint32_t height, Filter::Type filtername)
+RealData::RealData(unsigned char** pngData, Common::Range wRange, Common::Range hRange, Filter::Type filtername)
 {
     // フィルタリング
-    _result = Filter::apply(imageData, width, height, filtername);
+    _result = Filter::apply(pngData, wRange, hRange, filtername);
 }
 
 FutureData::FutureData()
@@ -43,7 +43,7 @@ FutureData::FutureData()
 {
 }
 
-const RGBAArray& FutureData::waitResult()
+bool FutureData::waitResult()
 {
     std::unique_lock<std::mutex> lock(_mtx);
     _notReady.wait(lock, [this] { return _ready; });

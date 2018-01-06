@@ -4,25 +4,16 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <vector>
 #include <png.h>
-#include "Common.h"
 
 class Image
 {
 public:
-    enum RGBAType {
+    enum RGBA {
         RED,
         GREEN,
         BLUE,
         ALPHA,
-    };
-
-    struct RGBA {
-        unsigned char r;
-        unsigned char g;
-        unsigned char b;
-        unsigned char a;
     };
 
     Image(const std::string& filename);
@@ -30,9 +21,8 @@ public:
     void write();
     void free();
 
-    std::vector<std::vector<RGBA>> getImageData();
-    std::vector<std::vector<RGBA>> getImageData(const Common::Range width, const Common::Range height);
-    void setImageData(std::vector<std::vector<RGBA>> imageData);
+    unsigned char** getPngData() const { return _png; };
+
     unsigned int getWidth() const { return _fParams.width; }
     unsigned int getHeight() const { return _fParams.height; }
 
@@ -51,6 +41,5 @@ private:
 };
 
 using ImagePtr = std::shared_ptr<Image>;
-using RGBAArray = std::vector<std::vector<Image::RGBA>>;
 
 #endif /* Image_h */

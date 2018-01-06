@@ -17,12 +17,12 @@
 class RealData
 {
 public:
-    RealData(RGBAArray& imageData, uint32_t width, uint32_t height, Filter::Type filtername);
+    RealData(unsigned char** pngData, Common::Range wRange, Common::Range hRange, Filter::Type filtername);
 
-    const RGBAArray& getResult() { return _result; }
+    bool getResult() { return _result; }
 
 private:
-    RGBAArray _result;
+    bool _result;
 };
 
 using RealDataPtr = std::shared_ptr<RealData>;
@@ -36,7 +36,7 @@ public:
     FutureData();
 
     /** 結果が来るまで待って結果を返す。既に結果が書き込まれている場合はすぐに戻る */
-    const RGBAArray& waitResult();
+    bool waitResult();
 
     /** 結果が入っているかを返す */
     bool tryResult() { return _ready; }
@@ -60,9 +60,9 @@ struct WorkData
         MESSAGE_TERMINATE,
         MESSAGE_FILTERING,
     } message;
-    RGBAArray imageData;
-    uint32_t width;
-    uint32_t height;
+    unsigned char** pngData;
+    Common::Range wRange;
+    Common::Range hRange;
     Filter::Type filtername;
 };
 

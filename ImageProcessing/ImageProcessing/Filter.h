@@ -2,7 +2,6 @@
 #define Filter_h
 
 #include <stdio.h>
-#include "Image.h"
 #include "Common.h"
 
 class Filter
@@ -12,10 +11,10 @@ public:
         SMOOTHING,
     };
 
-    static const RGBAArray& apply(RGBAArray& imageData, uint32_t width, uint32_t height, Type filtername);
+    static bool apply(unsigned char** pngData, Common::Range wRange, Common::Range hRange, Type filtername);
 
 private:
-    static const RGBAArray& smoothingFilter(RGBAArray& imageData, uint32_t width, uint32_t height);
+    static bool smoothingFilter(unsigned char** pngData, Common::Range wRange, Common::Range hRange);
 };
 
 #endif /* Filter_h */
