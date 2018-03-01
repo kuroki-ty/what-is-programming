@@ -1,11 +1,19 @@
+//
+//  ShellSort.cpp
+//  ShellSort
+//
+//  Created by tomotaka.yamasaki on 2018/03/01.
+//  Copyright © 2018年 tomotaka.yamasaki. All rights reserved.
+//
+
+#include "ShellSort.h"
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 // 引数をソートして返す
 // a ソートする配列
 // size 配列のサイズ
-void shell_sort(int a[], int size)
+void ShellSort::shell_sort(int a[], int size)
 {
     int i, j;
     int h = 1;
@@ -31,7 +39,7 @@ void shell_sort(int a[], int size)
 // 引数となる文字列をソートして標準出力へprintする
 // argc 文字列の個数
 // argv 文字列へのポインタ配列
-int sort_print(int argc, char *argv[])
+int ShellSort::sort_print(int argc, char *argv[])
 {
     int *a;
     int i;
@@ -51,10 +59,4 @@ int sort_print(int argc, char *argv[])
     free(a);
 
     return 0;
-}
-
-// コマンドライン引数をソートしてprintする
-int main(int argc, char *argv[])
-{
-    return sort_print(argc, argv);
 }

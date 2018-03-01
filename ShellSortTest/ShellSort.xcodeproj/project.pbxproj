@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30EC05F52047C39C00774DB3 /* ShellSort_Test.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30EC05F42047C39C00774DB3 /* ShellSort_Test.mm */; };
+		30EC05FC2047C42800774DB3 /* ShellSort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EC05FA2047C42800774DB3 /* ShellSort.cpp */; };
+		30EC05FF2047CAE400774DB3 /* ShellSort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EC05FA2047C42800774DB3 /* ShellSort.cpp */; };
 		30F00AE320402911008C14C0 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30F00AE220402911008C14C0 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -23,11 +26,23 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		30F00ADF20402911008C14C0 /* ShellSortTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ShellSortTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		30EC05F22047C39C00774DB3 /* ShellSort-Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ShellSort-Test.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		30EC05F42047C39C00774DB3 /* ShellSort_Test.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ShellSort_Test.mm; sourceTree = "<group>"; };
+		30EC05F62047C39C00774DB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		30EC05FA2047C42800774DB3 /* ShellSort.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShellSort.cpp; sourceTree = "<group>"; };
+		30EC05FB2047C42800774DB3 /* ShellSort.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShellSort.h; sourceTree = "<group>"; };
+		30F00ADF20402911008C14C0 /* ShellSort */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ShellSort; sourceTree = BUILT_PRODUCTS_DIR; };
 		30F00AE220402911008C14C0 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		30EC05EF2047C39C00774DB3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		30F00ADC20402911008C14C0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -38,10 +53,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		30EC05F32047C39C00774DB3 /* ShellSort-Test */ = {
+			isa = PBXGroup;
+			children = (
+				30EC05F42047C39C00774DB3 /* ShellSort_Test.mm */,
+				30EC05F62047C39C00774DB3 /* Info.plist */,
+			);
+			path = "ShellSort-Test";
+			sourceTree = "<group>";
+		};
 		30F00AD620402911008C14C0 = {
 			isa = PBXGroup;
 			children = (
-				30F00AE120402911008C14C0 /* ShellSortTest */,
+				30F00AE120402911008C14C0 /* ShellSort */,
+				30EC05F32047C39C00774DB3 /* ShellSort-Test */,
 				30F00AE020402911008C14C0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,25 +74,45 @@
 		30F00AE020402911008C14C0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				30F00ADF20402911008C14C0 /* ShellSortTest */,
+				30F00ADF20402911008C14C0 /* ShellSort */,
+				30EC05F22047C39C00774DB3 /* ShellSort-Test.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		30F00AE120402911008C14C0 /* ShellSortTest */ = {
+		30F00AE120402911008C14C0 /* ShellSort */ = {
 			isa = PBXGroup;
 			children = (
 				30F00AE220402911008C14C0 /* main.cpp */,
+				30EC05FA2047C42800774DB3 /* ShellSort.cpp */,
+				30EC05FB2047C42800774DB3 /* ShellSort.h */,
 			);
-			path = ShellSortTest;
+			path = ShellSort;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		30F00ADE20402911008C14C0 /* ShellSortTest */ = {
+		30EC05F12047C39C00774DB3 /* ShellSort-Test */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 30F00AE620402911008C14C0 /* Build configuration list for PBXNativeTarget "ShellSortTest" */;
+			buildConfigurationList = 30EC05F92047C39C00774DB3 /* Build configuration list for PBXNativeTarget "ShellSort-Test" */;
+			buildPhases = (
+				30EC05EE2047C39C00774DB3 /* Sources */,
+				30EC05EF2047C39C00774DB3 /* Frameworks */,
+				30EC05F02047C39C00774DB3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ShellSort-Test";
+			productName = "ShellSort-Test";
+			productReference = 30EC05F22047C39C00774DB3 /* ShellSort-Test.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		30F00ADE20402911008C14C0 /* ShellSort */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 30F00AE620402911008C14C0 /* Build configuration list for PBXNativeTarget "ShellSort" */;
 			buildPhases = (
 				30F00ADB20402911008C14C0 /* Sources */,
 				30F00ADC20402911008C14C0 /* Frameworks */,
@@ -77,9 +122,9 @@
 			);
 			dependencies = (
 			);
-			name = ShellSortTest;
+			name = ShellSort;
 			productName = ShellSortTest;
-			productReference = 30F00ADF20402911008C14C0 /* ShellSortTest */;
+			productReference = 30F00ADF20402911008C14C0 /* ShellSort */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -91,13 +136,17 @@
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = tomotaka.yamasaki;
 				TargetAttributes = {
+					30EC05F12047C39C00774DB3 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
 					30F00ADE20402911008C14C0 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = 30F00ADA20402911008C14C0 /* Build configuration list for PBXProject "ShellSortTest" */;
+			buildConfigurationList = 30F00ADA20402911008C14C0 /* Build configuration list for PBXProject "ShellSort" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -109,16 +158,37 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				30F00ADE20402911008C14C0 /* ShellSortTest */,
+				30F00ADE20402911008C14C0 /* ShellSort */,
+				30EC05F12047C39C00774DB3 /* ShellSort-Test */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		30EC05F02047C39C00774DB3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		30EC05EE2047C39C00774DB3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30EC05FF2047CAE400774DB3 /* ShellSort.cpp in Sources */,
+				30EC05F52047C39C00774DB3 /* ShellSort_Test.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		30F00ADB20402911008C14C0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30EC05FC2047C42800774DB3 /* ShellSort.cpp in Sources */,
 				30F00AE320402911008C14C0 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -126,6 +196,30 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		30EC05F72047C39C00774DB3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "ShellSort-Test/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yamasaki.shell-sort-test.ShellSort-Test";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		30EC05F82047C39C00774DB3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "ShellSort-Test/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yamasaki.shell-sort-test.ShellSort-Test";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		30F00AE420402911008C14C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -248,7 +342,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		30F00ADA20402911008C14C0 /* Build configuration list for PBXProject "ShellSortTest" */ = {
+		30EC05F92047C39C00774DB3 /* Build configuration list for PBXNativeTarget "ShellSort-Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30EC05F72047C39C00774DB3 /* Debug */,
+				30EC05F82047C39C00774DB3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		30F00ADA20402911008C14C0 /* Build configuration list for PBXProject "ShellSort" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				30F00AE420402911008C14C0 /* Debug */,
@@ -257,7 +360,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		30F00AE620402911008C14C0 /* Build configuration list for PBXNativeTarget "ShellSortTest" */ = {
+		30F00AE620402911008C14C0 /* Build configuration list for PBXNativeTarget "ShellSort" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				30F00AE720402911008C14C0 /* Debug */,
