@@ -19,15 +19,15 @@ void ShellSort::shell_sort(int a[], int size)
     int h = 1;
 
     do {
-        h = h * 2 + 1;
+        h = h * 3 + 1;
     } while (h <= size);
 
     do {
         h /= 3;
-        for (i = h; i < size; i++)
+        for (i = 0; i < size; i++)
         {
             int v = a[i];
-            for (j = i; j > h && a[j - h] > v; j -= h)
+            for (j = i; j >= h && a[j - h] > v; j -= h)
                 a[j] = a[j - h];
             if (i != j)
                 a[j] = v;
