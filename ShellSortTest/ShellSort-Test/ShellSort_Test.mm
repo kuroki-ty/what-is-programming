@@ -65,7 +65,6 @@ struct TestCase {
 
 - (void)testShellSortIntBoundaryValue {
     std::vector<TestCase> testList = {
-        {[NSMutableArray arrayWithObjects:[NSNull null] , nil], [NSMutableArray arrayWithObjects:[NSNull null], nil], 0},
         {[NSMutableArray arrayWithObjects:@1, nil], [NSMutableArray arrayWithObjects:@1, nil], 1},
         {[NSMutableArray arrayWithObjects:@1, @1, @1, nil], [NSMutableArray arrayWithObjects:@1, @1, @1, nil], 3},
         {[NSMutableArray arrayWithObjects:@1, @3, @2, nil], [NSMutableArray arrayWithObjects:@1, @2, @3, nil], 3},
@@ -82,6 +81,7 @@ struct TestCase {
 
 - (void)testShellSortArraySize {
     std::vector<int> sizeList = {
+        0,
         10,
         100,
         1000,
