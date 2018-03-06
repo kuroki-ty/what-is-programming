@@ -80,4 +80,29 @@ struct TestCase {
     }
 }
 
+- (void)testShellSortArraySize {
+    std::vector<int> sizeList = {
+        10,
+        100,
+        1000,
+        10000,
+        100000,
+        1000000,
+    };
+
+    for (int size : sizeList) {
+        TestCase testData;
+        testData.testData = [NSMutableArray array];
+        testData.answerData = [NSMutableArray array];
+        testData.size = size;
+
+        for (int i = 0; i < size; i++) {
+            [testData.testData addObject:[NSNumber numberWithInt:testData.size - i - 1]];
+            [testData.answerData addObject:[NSNumber numberWithInt:i]];
+        }
+
+        [self checkShellSort:testData.testData answerData:testData.answerData size:testData.size];
+    }
+}
+
 @end
