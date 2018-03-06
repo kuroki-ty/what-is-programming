@@ -9,12 +9,19 @@
 #import <XCTest/XCTest.h>
 #include <iostream>
 #include <vector>
+#include <limits.h>
 #include "ShellSort.h"
 
 @interface ShellSort_Test : XCTestCase
 @end
 
 @implementation ShellSort_Test
+
+struct TestCase {
+    NSMutableArray* testData;
+    NSMutableArray* answerData;
+    int size;
+};
 
 - (void)setUp {
     [super setUp];
@@ -40,8 +47,8 @@
     return memcmp(array, answer, sizeof(int) * size) == 0;
 }
 
-- (void)checkShellSort:(NSArray*) testData
-            answerData:(NSArray*) answerData
+- (void)checkShellSort:(NSMutableArray*) testData
+            answerData:(NSMutableArray*) answerData
                   size:(int) size {
     int array[size];
     int answer[size];
@@ -51,21 +58,21 @@
         answer[i] = [[answerData objectAtIndex:i] intValue];
     }
     ShellSort::shell_sort(array, size);
-    [self log:array size:size];
-    [self log:answer size:size];
+//    [self log:array size:size];
+//    [self log:answer size:size];
     XCTAssertTrue([self isMatchedArrays:array answer:answer size:size]);
 }
 
-- (void)testShellSort {
-    struct TestCase {
-        NSArray* testData;
-        NSArray* answerData;
-        int size;
-    };
-
+- (void)testShellSortIntBoundaryValue {
     std::vector<TestCase> testList = {
-        {[NSArray arrayWithObjects:@1, nil], [NSArray arrayWithObjects:@1, nil], 1},
-        {[NSArray arrayWithObjects:@1, @1, @1, nil], [NSArray arrayWithObjects:@1, @1, @1, nil], 3},
+        {[NSMutableArray arrayWithObjects:[NSNull null] , nil], [NSMutableArray arrayWithObjects:[NSNull null], nil], 0},
+        {[NSMutableArray arrayWithObjects:@1, nil], [NSMutableArray arrayWithObjects:@1, nil], 1},
+        {[NSMutableArray arrayWithObjects:@1, @1, @1, nil], [NSMutableArray arrayWithObjects:@1, @1, @1, nil], 3},
+        {[NSMutableArray arrayWithObjects:@1, @3, @2, nil], [NSMutableArray arrayWithObjects:@1, @2, @3, nil], 3},
+        {[NSMutableArray arrayWithObjects:@1, @-1, @2, nil], [NSMutableArray arrayWithObjects:@-1, @1, @2, nil], 3},
+        {[NSMutableArray arrayWithObjects:@INT_MAX, @0, @1, nil], [NSMutableArray arrayWithObjects:@0, @1, @INT_MAX, nil], 3},
+        {[NSMutableArray arrayWithObjects:@0, @INT_MIN, @1, nil], [NSMutableArray arrayWithObjects:@INT_MIN, @0, @1, nil], 3},
+        {[NSMutableArray arrayWithObjects:@9, @8, @7, @6, @5, @4, @3, @2, @1, @0, nil], [NSMutableArray arrayWithObjects:@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, nil], 10},
     };
 
     for (auto testData : testList) {
