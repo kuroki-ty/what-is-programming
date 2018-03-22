@@ -24,7 +24,7 @@ void ShellSort::shell_sort(int a[], int size)
 
     do {
         h /= 3;
-        for (i = 0; i < size; i++)
+        for (i = h; i < size; i++)
         {
             int v = a[i];
             for (j = i; j >= h && a[j - h] > v; j -= h)
