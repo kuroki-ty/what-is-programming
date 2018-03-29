@@ -73,6 +73,10 @@ struct TestCase {
         {[NSMutableArray arrayWithObjects:@0, @INT_MIN, @1, nil], [NSMutableArray arrayWithObjects:@INT_MIN, @0, @1, nil], 3},
         {[NSMutableArray arrayWithObjects:@9, @8, @7, @6, @5, @4, @3, @2, @1, @0, nil], [NSMutableArray arrayWithObjects:@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, nil], 10},
 
+        // 入れ替えが行われないテストケース
+        {[NSMutableArray arrayWithObjects:@1, @2, nil], [NSMutableArray arrayWithObjects:@1, @2, nil], 2},
+        // C0(命令網羅)を満たすテストケース
+        {[NSMutableArray arrayWithObjects:@2, @1, nil], [NSMutableArray arrayWithObjects:@1, @2, nil], 2},
         // C0(命令網羅), C1(分岐網羅), C2(条件網羅)を全て満たすテストケース
         {[NSMutableArray arrayWithObjects:@1, @2, @1, @0, nil], [NSMutableArray arrayWithObjects:@0, @1, @1, @2, nil], 4},
     };
